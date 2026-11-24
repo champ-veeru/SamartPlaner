@@ -1,0 +1,29 @@
+{
+  "name": "smartfin-karnataka",
+  "version": "1.0.0",
+  "description": "SmartFin – Smart Financial Literacy & Budget Planner for Citizens of Karnataka, India",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "karnataka",
+    "budget-planner",
+    "financial-literacy",
+    "government-schemes",
+    "gruha-lakshmi",
+    "yuva-nidhi",
+    "fintech"
+  ],
+  "author": "SmartFin Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

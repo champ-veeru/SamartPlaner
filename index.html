@@ -1,0 +1,1311 @@
+~<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFin – Smart Financial Literacy & Budget Planner for Karnataka Citizens</title>
+  <meta name="description" content="Personal financial assistant for Karnataka citizens combining Budgeting, Expense Tracking, Savings Goals, Financial Literacy, and Government Scheme Discovery. Plan Better. Save Smarter. Discover Your Benefits.">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="brand-emblem">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <div class="brand-title">
+            SmartFin
+            <span class="brand-tag">ಕರ್ನಾಟಕ • Karnataka</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="#home" class="nav-item active" data-view="home">
+          <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+          <span>Home</span>
+        </a>
+        <a href="#dashboard" class="nav-item" data-view="dashboard">
+          <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#budget" class="nav-item" data-view="budget">
+          <span class="nav-icon"><i class="fa-solid fa-calculator"></i></span>
+          <span>Budget Planner</span>
+        </a>
+        <a href="#expenses" class="nav-item" data-view="expenses">
+          <span class="nav-icon"><i class="fa-solid fa-receipt"></i></span>
+          <span>Expense Tracker</span>
+        </a>
+        <a href="#goals" class="nav-item" data-view="goals">
+          <span class="nav-icon"><i class="fa-solid fa-bullseye"></i></span>
+          <span>Savings Goals</span>
+        </a>
+
+        <div class="nav-section-title">Citizen Benefits ⭐</div>
+        <a href="#scheme-finder" class="nav-item" data-view="scheme-finder">
+          <span class="nav-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+          <span>Find Schemes for Me</span>
+          <span class="nav-badge-star">MATCH</span>
+        </a>
+        <a href="#schemes" class="nav-item" data-view="schemes">
+          <span class="nav-icon"><i class="fa-solid fa-landmark"></i></span>
+          <span>Government Schemes</span>
+        </a>
+
+        <div class="nav-section-title">Knowledge & Growth</div>
+        <a href="#literacy" class="nav-item" data-view="literacy">
+          <span class="nav-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+          <span>Financial Literacy</span>
+        </a>
+        <a href="#insights" class="nav-item" data-view="insights">
+          <span class="nav-icon"><i class="fa-solid fa-lightbulb"></i></span>
+          <span>Smart Insights</span>
+        </a>
+
+        <div class="nav-section-title">Account</div>
+        <a href="#profile" class="nav-item" data-view="profile">
+          <span class="nav-icon"><i class="fa-solid fa-user-circle"></i></span>
+          <span>Profile</span>
+        </a>
+        <a href="#settings" class="nav-item" data-view="settings">
+          <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+          <span>Settings & Backup</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-quick-pill" id="sidebarUserProfilePill">
+          <div class="user-avatar-mini" id="sidebarUserAvatar">AK</div>
+          <div class="user-info-mini">
+            <span class="user-name-mini" id="sidebarUserName">Anand Kumar</span>
+            <span class="user-loc-mini" id="sidebarUserLoc">Mysuru, Karnataka</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT AREA ================= -->
+    <main class="app-main">
+      
+      <!-- Top Sticky Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-headline">
+            <h1 class="page-title" id="pageTitle">
+              <span>Home</span>
+            </h1>
+            <span class="page-subtitle" id="pageSubtitle">Plan Better. Save Smarter. Discover Your Benefits.</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="db-status-pill offline" id="dbStatusIndicator" title="Database status">
+            <span class="db-status-dot"></span>
+            <span>Checking DB...</span>
+          </div>
+          <button class="btn btn-outline-primary btn-sm" id="quickFindSchemesBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span class="btn-text-hide">Find Schemes</span>
+          </button>
+          <button class="btn btn-primary btn-sm" id="quickAddExpenseBtn">
+            <i class="fa-solid fa-plus"></i>
+            <span class="btn-text-hide">Add Expense</span>
+          </button>
+          <button class="btn btn-secondary btn-sm" id="langToggleBtn" title="Switch Language / ಭಾಷೆ">
+            <i class="fa-solid fa-language"></i>
+            <span id="currentLangLabel">EN</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ================= PAGE VIEWS ================= -->
+
+      <!-- VIEW 1: HOME / LANDING -->
+      <section class="page-view active-view" id="view-home">
+        <div class="home-hero">
+          <div class="hero-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Tailored for the Citizens of Karnataka • ಕರ್ನಾಟಕದ ನಾಗರಿಕರಿಗಾಗಿ</span>
+          </div>
+          <h2 class="hero-title">SmartFin – Smart Financial Literacy & Budget Planner</h2>
+          <p class="hero-tagline">“Plan Better. Save Smarter. Discover Your Benefits.”</p>
+          <p class="hero-description">
+            Your personal financial companion built to help Karnataka households manage income, track daily expenses, cultivate consistent savings, master financial literacy, and effortlessly unlock eligible Karnataka Government & Central welfare schemes.
+          </p>
+          <div class="hero-cta-group">
+            <button class="btn btn-accent btn-lg" onclick="App.navigateTo('scheme-finder')">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              Find Schemes for Me
+            </button>
+            <button class="btn btn-primary btn-lg" onclick="App.navigateTo('dashboard')">
+              <i class="fa-solid fa-chart-line"></i>
+              Open My Dashboard
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="App.navigateTo('literacy')">
+              <i class="fa-solid fa-book-open-reader"></i>
+              Financial Education
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick 4 Features Grid -->
+        <div class="feature-cards-grid">
+          <div class="feature-box" onclick="App.navigateTo('budget')">
+            <div class="feature-icon-badge" style="background: #eff6ff; color: #2563eb;">
+              <i class="fa-solid fa-calculator"></i>
+            </div>
+            <h4>Household Budget Planner</h4>
+            <p>Plan monthly expenditures across Food, Rent, Education, Electricity, and Transport with the balanced 50/30/20 guideline.</p>
+          </div>
+
+          <div class="feature-box" onclick="App.navigateTo('expenses')">
+            <div class="feature-icon-badge" style="background: #fdf2f8; color: #db2777;">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+            <h4>Daily Expense Tracker</h4>
+            <p>Log payments via UPI, Cash, or Cards. Categorize, filter by month, and prevent silent financial leaks in your household.</p>
+          </div>
+
+          <div class="feature-box" onclick="App.navigateTo('scheme-finder')">
+            <div class="feature-icon-badge" style="background: #fef3c7; color: #d97706;">
+              <i class="fa-solid fa-landmark"></i>
+            </div>
+            <h4>Karnataka Scheme Finder ⭐</h4>
+            <p>Evaluate your eligibility for Gruha Lakshmi, Yuva Nidhi, Krishi Bhagya, Gruha Jyothi, Shakti, PM-KISAN, and central programs.</p>
+          </div>
+
+          <div class="feature-box" onclick="App.navigateTo('literacy')">
+            <div class="feature-icon-badge" style="background: #f0fdf4; color: #16a34a;">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h4>Financial Literacy Modules</h4>
+            <p>Simple, public-friendly modules covering Emergency Funds, CIBIL Scores, Digital UPI Safety, and Fraud Defense (Call 1930).</p>
+          </div>
+        </div>
+
+        <!-- Official Portals Direct Trust Strip -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-certificate" style="color: #d97706;"></i>
+              Verified Government Sources & Direct Portals
+            </div>
+            <span class="badge-eligibility badge-likely">100% Official Links</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+            SmartFin references current official government guidelines and directs you straight to authentic government portals. No intermediaries, no outdated blogs.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="https://sevasindhugs.karnataka.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-external-link"></i> Seva Sindhu Portal
+            </a>
+            <a href="https://ahara.kar.nic.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-external-link"></i> Ahara Karnataka (Food & Supplies)
+            </a>
+            <a href="https://ssp.postmatric.karnataka.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-external-link"></i> Karnataka State Scholarship (SSP)
+            </a>
+            <a href="https://fruits.karnataka.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-external-link"></i> FRUITS Farmer Portal
+            </a>
+            <a href="https://nadakacheri.karnataka.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-external-link"></i> Nadakacheri (AJSK)
+            </a>
+            <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-phone-volume"></i> Cybercrime (Call 1930)
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: DASHBOARD -->
+      <section class="page-view" id="view-dashboard">
+        
+        <!-- Financial Health Summary Banner -->
+        <div class="health-summary-banner">
+          <div class="health-score-dial">
+            <div class="health-badge-circle" id="dashHealthScore">
+              <span>78</span>
+              <small>/100</small>
+            </div>
+            <div class="health-text-wrap">
+              <div class="health-status-title" id="dashHealthTitle">Good Financial Health</div>
+              <div class="health-status-desc" id="dashHealthDesc">
+                Your monthly expenses are well balanced against your earnings. Continue maintaining your emergency fund reserve!
+              </div>
+            </div>
+          </div>
+          <div class="health-actions-quick">
+            <button class="btn btn-accent btn-sm" onclick="App.navigateTo('insights')">
+              <i class="fa-solid fa-chart-line"></i> View Insights
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="App.openAddExpenseModal()">
+              <i class="fa-solid fa-plus"></i> Add Expense
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Key Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card accent-income">
+            <div class="metric-header">
+              <span class="metric-label">Monthly Income</span>
+              <div class="metric-icon-box" style="color: #10b981;"><i class="fa-solid fa-wallet"></i></div>
+            </div>
+            <div class="metric-value" id="dashIncome">₹30,000</div>
+            <div class="metric-footer">
+              <span class="metric-trend-up"><i class="fa-solid fa-arrow-up"></i> Net take-home</span>
+            </div>
+          </div>
+
+          <div class="metric-card accent-expenses">
+            <div class="metric-header">
+              <span class="metric-label">Total Expenses</span>
+              <div class="metric-icon-box" style="color: #ef4444;"><i class="fa-solid fa-money-bill-wave"></i></div>
+            </div>
+            <div class="metric-value" id="dashExpenses">₹20,000</div>
+            <div class="metric-footer">
+              <span id="dashExpenseRatioText">67% of monthly income</span>
+            </div>
+          </div>
+
+          <div class="metric-card accent-balance">
+            <div class="metric-header">
+              <span class="metric-label">Remaining Balance</span>
+              <div class="metric-icon-box" style="color: #2563eb;"><i class="fa-solid fa-scale-balanced"></i></div>
+            </div>
+            <div class="metric-value" id="dashBalance">₹10,000</div>
+            <div class="metric-footer">
+              <span>Surplus after all spends</span>
+            </div>
+          </div>
+
+          <div class="metric-card accent-savings">
+            <div class="metric-header">
+              <span class="metric-label">Savings Rate</span>
+              <div class="metric-icon-box" style="color: #f59e0b;"><i class="fa-solid fa-piggy-bank"></i></div>
+            </div>
+            <div class="metric-value" id="dashSavingsRate">33%</div>
+            <div class="metric-footer">
+              <span class="metric-trend-up"><i class="fa-solid fa-check"></i> Benchmark is &gt;20%</span>
+            </div>
+          </div>
+
+          <div class="metric-card accent-health">
+            <div class="metric-header">
+              <span class="metric-label">Budget Utilization</span>
+              <div class="metric-icon-box" style="color: #8b5cf6;"><i class="fa-solid fa-chart-simple"></i></div>
+            </div>
+            <div class="metric-value" id="dashBudgetUtil">78%</div>
+            <div class="metric-footer">
+              <span id="dashBudgetUtilText">Within planned limit</span>
+            </div>
+          </div>
+
+          <div class="metric-card" style="border-top: 4px solid #d97706;">
+            <div class="metric-header">
+              <span class="metric-label">Eligible Schemes</span>
+              <div class="metric-icon-box" style="color: #d97706;"><i class="fa-solid fa-landmark"></i></div>
+            </div>
+            <div class="metric-value" id="dashEligibleCount">3 Likely</div>
+            <div class="metric-footer">
+              <a href="#scheme-finder" onclick="App.navigateTo('scheme-finder')" style="font-weight:600;">View eligible schemes &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-chart-column" style="color: #2563eb;"></i>
+                Income vs Expenses vs Savings
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="incomeVsExpenseChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card chart-card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-chart-pie" style="color: #8b5cf6;"></i>
+                Monthly Spending by Category
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="categorySpendingChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lower Grid: Recent Expenses + Active Goals -->
+        <div class="charts-grid">
+          
+          <!-- Recent Expenses Preview -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-clock-rotate-left" style="color: var(--primary);"></i>
+                Recent Household Expenses
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('expenses')">View All</button>
+            </div>
+            <div id="dashRecentExpensesList">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+
+          <!-- Active Goals Preview -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-bullseye" style="color: #10b981;"></i>
+                Active Savings Goals
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('goals')">Manage Goals</button>
+            </div>
+            <div id="dashGoalsPreviewList">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- VIEW 3: BUDGET PLANNER -->
+      <section class="page-view" id="view-budget">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-calculator" style="color: #2563eb;"></i> Monthly Household Budget Planner</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Allocate monthly income across essential Needs, Wants, and Savings.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary btn-sm" id="btnAuto503020">
+              <i class="fa-solid fa-wand-magic"></i> Auto 50/30/20 Rule
+            </button>
+            <button class="btn btn-primary btn-sm" id="btnSaveBudgetLimits">
+              <i class="fa-solid fa-check"></i> Save Budget Limits
+            </button>
+          </div>
+        </div>
+
+        <!-- 50/30/20 Balance Bar -->
+        <div class="budget-rule-summary">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <strong style="font-size: 15px;">50/30/20 Household Budget Breakdown</strong>
+              <div style="font-size: 12px; color: var(--text-muted);">Ideal allocation: 50% Needs • 30% Wants • 20% Savings</div>
+            </div>
+            <div style="font-weight: 700; font-size: 15px;" id="budgetFormulaResult">
+              Income (₹30,000) − Expenses (₹20,000) = <span style="color: #10b981;">₹10,000 Remaining</span>
+            </div>
+          </div>
+
+          <div class="budget-bar-50-30-20">
+            <div class="budget-bar-segment seg-needs" id="barSegNeeds" style="width: 50%;">Needs (50%)</div>
+            <div class="budget-bar-segment seg-wants" id="barSegWants" style="width: 30%;">Wants (30%)</div>
+            <div class="budget-bar-segment seg-savings" id="barSegSavings" style="width: 20%;">Savings (20%)</div>
+          </div>
+
+          <div class="budget-legend">
+            <div class="legend-item">
+              <span class="legend-dot" style="background-color: #3b82f6;"></span>
+              <span>Needs Spent: <strong id="legendNeedsVal">₹15,000</strong></span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background-color: #8b5cf6;"></span>
+              <span>Wants Spent: <strong id="legendWantsVal">₹5,000</strong></span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background-color: #10b981;"></span>
+              <span>Monthly Surplus: <strong id="legendSavingsVal">₹10,000</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories List -->
+        <div class="category-budget-list" id="categoryBudgetContainer">
+          <!-- Dynamically populated category rows -->
+        </div>
+      </section>
+
+      <!-- VIEW 4: EXPENSE TRACKER -->
+      <section class="page-view" id="view-expenses">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-receipt" style="color: #db2777;"></i> Daily Expense Tracker</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Track daily grocery, rent, fuel, and bill payments with UPI or Cash details.</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary btn-sm" id="btnExportExpenses">
+              <i class="fa-solid fa-file-export"></i> Export CSV
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="App.openAddExpenseModal()">
+              <i class="fa-solid fa-plus"></i> Add Expense
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="filters-bar">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" class="search-input" id="expenseSearchInput" placeholder="Search description, store, payment...">
+          </div>
+
+          <select class="select-filter" id="expenseCategoryFilter">
+            <option value="all">All Categories</option>
+            <option value="food">🍛 Food & Groceries</option>
+            <option value="rent">🏠 Rent & Housing</option>
+            <option value="education">📚 Education & Fees</option>
+            <option value="transport">🛵 Transport & Fuel</option>
+            <option value="electricity">⚡ Electricity & Bills</option>
+            <option value="healthcare">💊 Healthcare & Medicine</option>
+            <option value="entertainment">🍿 Entertainment & Outings</option>
+            <option value="shopping">🛍️ Shopping & Clothes</option>
+            <option value="other">📦 Other Expenses</option>
+          </select>
+
+          <select class="select-filter" id="expensePaymentFilter">
+            <option value="all">All Payment Modes</option>
+            <option value="UPI">UPI (GPay / PhonePe / Paytm)</option>
+            <option value="Cash">Cash</option>
+            <option value="Bank Transfer">Bank Transfer / NEFT</option>
+            <option value="Card">Debit / Credit Card</option>
+          </select>
+
+          <select class="select-filter" id="expenseSortFilter">
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="amount-desc">Highest Amount</option>
+            <option value="amount-asc">Lowest Amount</option>
+          </select>
+        </div>
+
+        <!-- Expenses Table -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Payment Mode</th>
+                <th style="text-align: right;">Amount (₹)</th>
+                <th style="text-align: center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="expensesTableBody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 5: SAVINGS GOALS -->
+      <section class="page-view" id="view-goals">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-bullseye" style="color: #10b981;"></i> Household Savings Goals</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Set clear milestones for Emergency Funds, Children's Education, Vehicles, or Home Construction.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="App.openAddGoalModal()">
+            <i class="fa-solid fa-plus"></i> New Savings Goal
+          </button>
+        </div>
+
+        <div class="goals-grid" id="goalsContainer">
+          <!-- Dynamically populated Goal cards -->
+        </div>
+      </section>
+
+      <!-- VIEW 6: KARNATAKA GOVERNMENT SCHEME FINDER ⭐ -->
+      <section class="page-view" id="view-scheme-finder">
+        <div class="finder-wizard-card">
+          <div class="wizard-title-row">
+            <div class="wizard-header-text">
+              <h3><i class="fa-solid fa-wand-magic-sparkles" style="color: #d97706;"></i> Find Schemes for Me (ಯೋಜನಾ ಶೋಧಕ)</h3>
+              <p>Enter your profile information to discover Karnataka Government and Central welfare schemes tailored to your eligibility.</p>
+            </div>
+            <button class="btn btn-accent" id="btnRunEligibilityEvaluation">
+              <i class="fa-solid fa-bolt"></i> Check My Eligibility
+            </button>
+          </div>
+
+          <form id="schemeFinderForm" onsubmit="event.preventDefault(); App.runEligibilityEvaluation();">
+            <div class="form-grid-3">
+              
+              <div class="form-group">
+                <label class="form-label" for="finderAge">Age of Applicant (ವರ್ಷ)</label>
+                <input type="number" id="finderAge" class="form-control" min="1" max="110" value="29" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderGender">Gender (ಲಿಂಗ)</label>
+                <select id="finderGender" class="form-control" required>
+                  <option value="Female">Female (ಮಹಿಳೆ)</option>
+                  <option value="Male" selected>Male (ಪುರುಷ)</option>
+                  <option value="Transgender">Transgender (ತೃತೀಯ ಲಿಂಗಿ)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderDistrict">District in Karnataka (ಜಿಲ್ಲೆ)</label>
+                <select id="finderDistrict" class="form-control" required>
+                  <!-- Populated with all 31 districts -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderAnnualIncome">Annual Family Income (ವಾರ್ಷಿಕ ಆದಾಯ ₹)</label>
+                <input type="number" id="finderAnnualIncome" class="form-control" value="360000" step="10000" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderOccupation">Occupation (ಉದ್ಯೋಗ)</label>
+                <select id="finderOccupation" class="form-control" required>
+                  <option value="Private Employee" selected>Private Employee (ಖಾಸಗಿ ನೌಕರ)</option>
+                  <option value="Farmer">Farmer / Agriculturist (ರೈತ)</option>
+                  <option value="Agricultural Labourer">Agricultural Labourer (ಕೃಷಿ ಕಾರ್ಮಿಕ)</option>
+                  <option value="Student">Student (ವಿದ್ಯಾರ್ಥಿ)</option>
+                  <option value="Unemployed">Unemployed (ನಿರುದ್ಯೋಗಿ)</option>
+                  <option value="Self-employed">Self-employed / Artisan / Trader (ಸ್ವಯಂ ಉದ್ಯೋಗಿ)</option>
+                  <option value="Daily Wage">Daily Wage Worker (ದಿನಗೂಲಿ ಕಾರ್ಮಿಕ)</option>
+                  <option value="Govt Employee">Government Employee (ಸರ್ಕಾರಿ ನೌಕರ)</option>
+                  <option value="Homemaker">Homemaker (ಗೃಹಿಣಿ)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderEmploymentStatus">Employment Status</label>
+                <select id="finderEmploymentStatus" class="form-control" required>
+                  <option value="Employed" selected>Employed (ಉದ್ಯೋಗದಲ್ಲಿದ್ದಾರೆ)</option>
+                  <option value="Unemployed">Unemployed (ನಿರುದ್ಯೋಗಿ)</option>
+                  <option value="Student">Student (ವಿದ್ಯಾರ್ಥಿ)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderEducation">Education Level (ವಿದ್ಯಾರ್ಹತೆ)</label>
+                <select id="finderEducation" class="form-control" required>
+                  <option value="Graduate" selected>Graduate (ಪದವೀಧರ)</option>
+                  <option value="Diploma">Diploma (ಡಿಪ್ಲೋಮಾ)</option>
+                  <option value="PUC/12th">PUC / 12th Standard</option>
+                  <option value="SSLC/10th">SSLC / 10th Standard</option>
+                  <option value="Below 10th">Below 10th</option>
+                  <option value="Post Graduate">Post Graduate (ಸ್ನಾತಕೋತ್ತರ)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderFarmerStatus">Farmer Status (ರೈತ ಸ್ಥಿತಿ)</label>
+                <select id="finderFarmerStatus" class="form-control" required>
+                  <option value="Non-Farmer" selected>Non-Farmer (ರೈತರಲ್ಲ)</option>
+                  <option value="Small/Marginal Farmer">Small / Marginal Farmer (&lt; 5 Acres)</option>
+                  <option value="Large Farmer">Large Farmer (&gt; 5 Acres)</option>
+                  <option value="Landless Agricultural Labourer">Landless Agricultural Labourer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="finderRationCard">Ration Card Category (ಪಡಿತರ ಚೀಟಿ)</label>
+                <select id="finderRationCard" class="form-control" required>
+                  <option value="APL" selected>APL (Non-Priority Household)</option>
+                  <option value="BPL">BPL (Priority Household)</option>
+                  <option value="AAY">Antyodaya Anna Yojana (AAY)</option>
+                  <option value="None">No Ration Card</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Additional Eligibility Flags -->
+            <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 16px;">
+              <label class="checkbox-group">
+                <input type="checkbox" id="finderDisability" class="checkbox-custom">
+                <span style="font-size: 13px;">Person with Disability (PWD / ವಿಕಲಚೇತನರು)</span>
+              </label>
+
+              <label class="checkbox-group">
+                <input type="checkbox" id="finderTaxPayer" class="checkbox-custom">
+                <span style="font-size: 13px;">Income Tax Assessee / Payer (ಆದಾಯ ತೆರಿಗೆ ಪಾವತಿದಾರ)</span>
+              </label>
+
+              <label class="checkbox-group">
+                <input type="checkbox" id="finderGirlChild" class="checkbox-custom" checked>
+                <span style="font-size: 13px;">Have a daughter aged 10 or below (10 ವರ್ಷದೊಳಗಿನ ಹೆಣ್ಣು ಮಗಳು)</span>
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <!-- Evaluation Results Summary Bar -->
+        <div class="eligibility-stat-bar">
+          <div class="stat-pill active" id="pillFilterLikely" onclick="App.filterEvaluatedByStatus('likely')">
+            <span class="stat-pill-icon">🟢</span>
+            <div>
+              <div class="stat-pill-num" id="statLikelyCount">0</div>
+              <div class="stat-pill-label">Likely Eligible</div>
+            </div>
+          </div>
+
+          <div class="stat-pill" id="pillFilterMaybe" onclick="App.filterEvaluatedByStatus('maybe')">
+            <span class="stat-pill-icon">🟡</span>
+            <div>
+              <div class="stat-pill-num" id="statMaybeCount">0</div>
+              <div class="stat-pill-label">May Be Eligible (Check)</div>
+            </div>
+          </div>
+
+          <div class="stat-pill" id="pillFilterUnlikely" onclick="App.filterEvaluatedByStatus('unlikely')">
+            <span class="stat-pill-icon">🔴</span>
+            <div>
+              <div class="stat-pill-num" id="statUnlikelyCount">0</div>
+              <div class="stat-pill-label">Does Not Appear Eligible</div>
+            </div>
+          </div>
+
+          <div class="stat-pill" id="pillFilterAll" onclick="App.filterEvaluatedByStatus('all')">
+            <span class="stat-pill-icon">📋</span>
+            <div>
+              <div class="stat-pill-num" id="statTotalCount">0</div>
+              <div class="stat-pill-label">Show All Evaluated</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mandatory Disclaimer Alert Banner -->
+        <div class="disclaimer-banner">
+          <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px;"></i>
+          <div>
+            <strong>Important Citizen Disclaimer:</strong> Eligibility tags are calculated estimations based on public guidelines. 
+            SmartFin never guarantees eligibility. Citizens must verify final criteria and submit applications directly on the official Karnataka Government or Central Government websites.
+          </div>
+        </div>
+
+        <!-- Evaluated Scheme Cards Container -->
+        <div class="schemes-card-list" id="evaluatedSchemesContainer">
+          <!-- Dynamically populated scheme cards -->
+        </div>
+      </section>
+
+      <!-- VIEW 7: GOVERNMENT SCHEMES DIRECTORY & SEARCH -->
+      <section class="page-view" id="view-schemes">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-landmark" style="color: #d97706;"></i> Karnataka & Central Schemes Directory</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Explore verified welfare programs by sector, department, and target beneficiary groups.</p>
+          </div>
+          <button class="btn btn-accent btn-sm" onclick="App.navigateTo('scheme-finder')">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Evaluate My Profile
+          </button>
+        </div>
+
+        <!-- Search Bar & Level Filter -->
+        <div class="filters-bar">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" class="search-input" id="directorySearchInput" placeholder="Search by scheme name, keywords, department, Gruha Lakshmi, Yuva Nidhi...">
+          </div>
+
+          <select class="select-filter" id="directoryLevelFilter">
+            <option value="all">All Levels (Karnataka & Central)</option>
+            <option value="karnataka">Karnataka State Only</option>
+            <option value="central">Government of India Only</option>
+          </select>
+        </div>
+
+        <!-- Category Pills Bar -->
+        <div class="category-pills-bar" id="schemeCategoryPillsBar">
+          <!-- Category buttons dynamically rendered -->
+        </div>
+
+        <!-- Schemes Directory Cards -->
+        <div class="schemes-card-list" id="directorySchemesContainer">
+          <!-- Dynamically populated cards -->
+        </div>
+      </section>
+
+      <!-- VIEW 8: FINANCIAL LITERACY -->
+      <section class="page-view" id="view-literacy">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-graduation-cap" style="color: #10b981;"></i> Financial Literacy Learning Modules</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Practical, easy-to-understand financial knowledge designed for everyday Indian households.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="App.openCalculatorsModal()">
+            <i class="fa-solid fa-calculator"></i> Interactive Calculators
+          </button>
+        </div>
+
+        <!-- Literacy Modules Grid -->
+        <div class="literacy-grid" id="literacyModulesContainer">
+          <!-- Populated from LITERACY_MODULES -->
+        </div>
+      </section>
+
+      <!-- VIEW 9: SMART INSIGHTS -->
+      <section class="page-view" id="view-insights">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-lightbulb" style="color: #f59e0b;"></i> Smart Financial Health & AI Insights</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Algorithmic diagnosis of your spending patterns, savings trajectory, and welfare opportunities.</p>
+          </div>
+        </div>
+
+        <div class="insights-list" id="insightsListContainer">
+          <!-- Populated from InsightsEngine -->
+        </div>
+      </section>
+
+      <!-- VIEW 10: PROFILE -->
+      <section class="page-view" id="view-profile">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-user-circle" style="color: var(--primary);"></i> Citizen Profile</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Update your household demographics to ensure accurate scheme discovery and budget planning.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btnSaveProfile">
+            <i class="fa-solid fa-check"></i> Save Profile
+          </button>
+        </div>
+
+        <div class="card">
+          <form id="profileForm" onsubmit="event.preventDefault(); App.saveUserProfile();">
+            <div class="form-grid-3">
+              
+              <div class="form-group">
+                <label class="form-label" for="profileName">Full Name (ಹೆಸರು)</label>
+                <input type="text" id="profileName" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profilePhone">Mobile Number (ಮೊಬೈಲ್ ಸಂಖ್ಯೆ)</label>
+                <input type="tel" id="profilePhone" class="form-control" placeholder="10-digit number">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileAge">Age (ವಯಸ್ಸು)</label>
+                <input type="number" id="profileAge" class="form-control" min="1" max="110" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileGender">Gender (ಲಿಂಗ)</label>
+                <select id="profileGender" class="form-control" required>
+                  <option value="Male">Male (ಪುರುಷ)</option>
+                  <option value="Female">Female (ಮಹಿಳೆ)</option>
+                  <option value="Transgender">Transgender (ತೃತೀಯ ಲಿಂಗಿ)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileDistrict">District in Karnataka (ಜಿಲ್ಲೆ)</label>
+                <select id="profileDistrict" class="form-control" required>
+                  <!-- Populated with districts -->
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileMonthlyIncome">Monthly In-Hand Income (ಮಾಸಿಕ ಆದಾಯ ₹)</label>
+                <input type="number" id="profileMonthlyIncome" class="form-control" step="1000" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileAnnualIncome">Annual Family Income (ವಾರ್ಷಿಕ ಆದಾಯ ₹)</label>
+                <input type="number" id="profileAnnualIncome" class="form-control" step="10000" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileOccupation">Occupation (ಉದ್ಯೋಗ)</label>
+                <select id="profileOccupation" class="form-control" required>
+                  <option value="Private Employee">Private Employee</option>
+                  <option value="Govt Employee">Government Employee</option>
+                  <option value="Farmer">Farmer / Agriculturist</option>
+                  <option value="Agricultural Labourer">Agricultural Labourer</option>
+                  <option value="Student">Student</option>
+                  <option value="Unemployed">Unemployed</option>
+                  <option value="Self-employed">Self-employed / Trader</option>
+                  <option value="Daily Wage">Daily Wage Worker</option>
+                  <option value="Homemaker">Homemaker</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileEmploymentStatus">Employment Status</label>
+                <select id="profileEmploymentStatus" class="form-control" required>
+                  <option value="Employed">Employed</option>
+                  <option value="Unemployed">Unemployed</option>
+                  <option value="Student">Student</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileEducation">Education Level</label>
+                <select id="profileEducation" class="form-control" required>
+                  <option value="Below 10th">Below 10th</option>
+                  <option value="SSLC/10th">SSLC / 10th</option>
+                  <option value="PUC/12th">PUC / 12th</option>
+                  <option value="Diploma">Diploma</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="Post Graduate">Post Graduate</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileFarmerStatus">Farmer Status</label>
+                <select id="profileFarmerStatus" class="form-control" required>
+                  <option value="Non-Farmer">Non-Farmer</option>
+                  <option value="Small/Marginal Farmer">Small / Marginal Farmer (&lt; 5 Acres)</option>
+                  <option value="Large Farmer">Large Farmer (&gt; 5 Acres)</option>
+                  <option value="Landless Agricultural Labourer">Landless Agricultural Labourer</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profileRationCard">Ration Card Type</label>
+                <select id="profileRationCard" class="form-control" required>
+                  <option value="APL">APL (Above Poverty Line)</option>
+                  <option value="BPL">BPL (Below Poverty Line)</option>
+                  <option value="AAY">Antyodaya Anna Yojana (AAY)</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+
+            </div>
+
+            <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-top: 14px;">
+              <label class="checkbox-group">
+                <input type="checkbox" id="profileDisability" class="checkbox-custom">
+                <span style="font-size: 13px;">Person with Disability (PWD)</span>
+              </label>
+
+              <label class="checkbox-group">
+                <input type="checkbox" id="profileTaxPayer" class="checkbox-custom">
+                <span style="font-size: 13px;">Income Tax Assessee</span>
+              </label>
+
+              <label class="checkbox-group">
+                <input type="checkbox" id="profileGirlChild" class="checkbox-custom">
+                <span style="font-size: 13px;">Girl Child under 10 years</span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- VIEW 11: SETTINGS & DATA MANAGEMENT -->
+      <section class="page-view" id="view-settings">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-gear" style="color: var(--slate-700);"></i> Settings & Data Backup</h2>
+            <p style="font-size: 13px; color: var(--text-muted);">Manage your data safely in your browser's LocalStorage. Export backups or reset demo data.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- Data Management Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-database"></i> LocalStorage Data Management</div>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+              All your budget allocations, expense records, and profile details are stored 100% locally in your browser. You can export a backup JSON file anytime or restore from an existing file.
+            </p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button class="btn btn-primary" id="btnExportJSON">
+                <i class="fa-solid fa-download"></i> Download Backup (JSON)
+              </button>
+              <button class="btn btn-secondary" onclick="document.getElementById('importFileInput').click()">
+                <i class="fa-solid fa-upload"></i> Restore from JSON
+              </button>
+              <input type="file" id="importFileInput" style="display:none" accept=".json" onchange="App.handleImportFile(event)">
+              <button class="btn btn-secondary" id="btnResetDemoData">
+                <i class="fa-solid fa-rotate-left"></i> Reset to Demo Data
+              </button>
+              <button class="btn btn-danger" id="btnClearAllData">
+                <i class="fa-solid fa-trash"></i> Clear All Data
+              </button>
+            </div>
+          </div>
+
+          <!-- Application Information Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="fa-solid fa-circle-info"></i> About SmartFin</div>
+            </div>
+            <div style="font-size: 13px; color: var(--slate-700); line-height: 1.6;">
+              <p><strong>Application:</strong> SmartFin – Smart Financial Literacy & Budget Planner</p>
+              <p><strong>Tagline:</strong> Plan Better. Save Smarter. Discover Your Benefits. (ಉತ್ತಮ ಯೋಜನೆ. ಸ್ಮಾರ್ಟ್ ಉಳಿತಾಯ. ನಿಮ್ಮ ಸವಲತ್ತುಗಳು.)</p>
+              <p><strong>Target Region:</strong> Karnataka, India (Covers all 31 districts)</p>
+              <p><strong>Storage:</strong> Privacy-first LocalStorage (Client-side architecture)</p>
+              <p><strong>Version:</strong> 1.0.0 (Ready for React/Node/MongoDB upgrade)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= MOBILE BOTTOM NAVIGATION BAR ================= -->
+    <nav class="mobile-bottom-bar">
+      <a href="#home" class="bottom-bar-item active" data-view="home">
+        <span class="bottom-bar-icon"><i class="fa-solid fa-house"></i></span>
+        <span>Home</span>
+      </a>
+      <a href="#dashboard" class="bottom-bar-item" data-view="dashboard">
+        <span class="bottom-bar-icon"><i class="fa-solid fa-chart-pie"></i></span>
+        <span>Dashboard</span>
+      </a>
+      <a href="#budget" class="bottom-bar-item" data-view="budget">
+        <span class="bottom-bar-icon"><i class="fa-solid fa-calculator"></i></span>
+        <span>Budget</span>
+      </a>
+      <a href="#scheme-finder" class="bottom-bar-item" data-view="scheme-finder">
+        <span class="bottom-bar-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span>Schemes</span>
+      </a>
+      <a href="#literacy" class="bottom-bar-item" data-view="literacy">
+        <span class="bottom-bar-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+        <span>Literacy</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. Add / Edit Expense Modal -->
+  <div class="modal-backdrop" id="modalExpense">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title" id="modalExpenseTitle">Add Daily Expense</div>
+        <button class="modal-close-btn" onclick="App.closeModal('modalExpense')">&times;</button>
+      </div>
+      <form id="expenseForm" onsubmit="event.preventDefault(); App.saveExpenseForm();">
+        <div class="modal-body">
+          <input type="hidden" id="expFormId" value="">
+          
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="expFormCategory">Category (ವರ್ಗ)</label>
+            <select id="expFormCategory" class="form-control" required>
+              <option value="food">🍛 Food & Groceries</option>
+              <option value="rent">🏠 Rent & Housing</option>
+              <option value="education">📚 Education & Fees</option>
+              <option value="transport">🛵 Transport & Fuel</option>
+              <option value="electricity">⚡ Electricity & Bills</option>
+              <option value="healthcare">💊 Healthcare & Medicine</option>
+              <option value="entertainment">🍿 Entertainment & Outings</option>
+              <option value="shopping">🛍️ Shopping & Clothes</option>
+              <option value="other">📦 Other Expenses</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="expFormAmount">Amount (ಮೊತ್ತ ₹)</label>
+            <input type="number" id="expFormAmount" class="form-control" min="1" step="1" placeholder="e.g. 500" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="expFormDate">Date (ದಿನಾಂಕ)</label>
+            <input type="date" id="expFormDate" class="form-control" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="expFormDesc">Description / Store / Merchant</label>
+            <input type="text" id="expFormDesc" class="form-control" placeholder="e.g. Milk & groceries at Nandini parlor" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expFormPayment">Payment Method (ಪಾವತಿ ವಿಧಾನ)</label>
+            <select id="expFormPayment" class="form-control" required>
+              <option value="UPI">UPI (Google Pay, PhonePe, Paytm, BHIM)</option>
+              <option value="Cash">Cash (ನಗದು)</option>
+              <option value="Bank Transfer">Bank Transfer / Net Banking</option>
+              <option value="Card">Debit / Credit Card</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('modalExpense')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Add / Edit Goal Modal -->
+  <div class="modal-backdrop" id="modalGoal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title" id="modalGoalTitle">Create New Savings Goal</div>
+        <button class="modal-close-btn" onclick="App.closeModal('modalGoal')">&times;</button>
+      </div>
+      <form id="goalForm" onsubmit="event.preventDefault(); App.saveGoalForm();">
+        <div class="modal-body">
+          <input type="hidden" id="goalFormId" value="">
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="goalFormTitle">Goal Name (ಉದ್ದೇಶ)</label>
+            <input type="text" id="goalFormTitle" class="form-control" placeholder="e.g. Emergency Fund, Laptop, Bike, House" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="goalFormCategory">Category</label>
+            <select id="goalFormCategory" class="form-control" required>
+              <option value="Emergency fund">🛡️ Emergency fund</option>
+              <option value="Education">🎓 Education</option>
+              <option value="Laptop">💻 Laptop / Device</option>
+              <option value="Bike">🛵 Bike / Two-Wheeler</option>
+              <option value="House">🏠 House / Construction</option>
+              <option value="Business">🚀 Business / Startup</option>
+              <option value="Other">🎯 Other Goal</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="goalFormTarget">Target Amount (ಗುರಿ ಮೊತ್ತ ₹)</label>
+            <input type="number" id="goalFormTarget" class="form-control" min="1000" step="500" placeholder="e.g. 50000" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="goalFormCurrent">Current Savings (ಈಗಿರುವ ಉಳಿತಾಯ ₹)</label>
+            <input type="number" id="goalFormCurrent" class="form-control" min="0" step="100" value="0" required>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" for="goalFormTargetDate">Target Completion Date (ಅಂದಾಜು ದಿನಾಂಕ)</label>
+            <input type="date" id="goalFormTargetDate" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="goalFormMonthly">Monthly Planned Contribution (₹/ತಿಂಗಳು)</label>
+            <input type="number" id="goalFormMonthly" class="form-control" min="100" step="100" placeholder="e.g. 3000">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('modalGoal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Add Funds to Goal Modal -->
+  <div class="modal-backdrop" id="modalAddFunds">
+    <div class="modal-container" style="max-width: 440px;">
+      <div class="modal-header">
+        <div class="modal-title">Deposit Money into Goal</div>
+        <button class="modal-close-btn" onclick="App.closeModal('modalAddFunds')">&times;</button>
+      </div>
+      <form onsubmit="event.preventDefault(); App.confirmAddFunds();">
+        <div class="modal-body">
+          <input type="hidden" id="fundsGoalId" value="">
+          <p id="fundsGoalNameText" style="font-weight: 600; margin-bottom: 14px; color: var(--slate-800);"></p>
+          <div class="form-group">
+            <label class="form-label" for="fundsAddAmount">Deposit Amount (₹)</label>
+            <input type="number" id="fundsAddAmount" class="form-control" min="50" step="50" placeholder="e.g. 2000" required autofocus>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('modalAddFunds')">Cancel</button>
+          <button type="submit" class="btn btn-success"><i class="fa-solid fa-piggy-bank"></i> Add Funds</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Scheme Details Modal -->
+  <div class="modal-backdrop" id="modalSchemeDetails">
+    <div class="modal-container modal-container-lg">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="schemeModalName">Scheme Details</div>
+          <div id="schemeModalKannada" style="font-size: 13px; color: var(--accent-gold); font-weight: 600;"></div>
+        </div>
+        <button class="modal-close-btn" onclick="App.closeModal('modalSchemeDetails')">&times;</button>
+      </div>
+      <div class="modal-body" id="schemeModalBody">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <span id="schemeModalVerified" style="font-size: 11px; color: var(--text-subtle); align-self: center;"></span>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('modalSchemeDetails')">Close</button>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="schemeModalOfficialBtn">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Official Website
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Literacy Module Reader Modal -->
+  <div class="modal-backdrop" id="modalLiteracyReader">
+    <div class="modal-container modal-container-lg">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="litModalTitle">Module Title</div>
+          <div id="litModalKannada" style="font-size: 13px; color: var(--accent-gold); font-weight: 600;"></div>
+        </div>
+        <button class="modal-close-btn" onclick="App.closeModal('modalLiteracyReader')">&times;</button>
+      </div>
+      <div class="modal-body" id="litModalBody">
+        <!-- Module content injected here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="App.closeModal('modalLiteracyReader')">Done Reading</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Financial Calculators Modal -->
+  <div class="modal-backdrop" id="modalCalculators">
+    <div class="modal-container modal-container-lg">
+      <div class="modal-header">
+        <div class="modal-title"><i class="fa-solid fa-calculator" style="color: var(--primary);"></i> Interactive Financial Calculators</div>
+        <button class="modal-close-btn" onclick="App.closeModal('modalCalculators')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="calculators-tabs">
+          <button class="calc-tab-btn active" onclick="App.switchCalcTab('emi')">EMI Calculator</button>
+          <button class="calc-tab-btn" onclick="App.switchCalcTab('sip')">Compound Interest / SIP</button>
+          <button class="calc-tab-btn" onclick="App.switchCalcTab('emergency')">Emergency Fund Calculator</button>
+        </div>
+
+        <!-- Tab 1: EMI Calculator -->
+        <div id="calcTabEmi" class="calc-content-tab">
+          <div class="form-grid-3" style="margin-bottom: 18px;">
+            <div class="form-group">
+              <label class="form-label">Loan Amount (₹)</label>
+              <input type="number" id="emiLoanAmount" class="form-control" value="300000" step="10000" oninput="App.calculateEmi()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Annual Interest Rate (%)</label>
+              <input type="number" id="emiInterestRate" class="form-control" value="9.5" step="0.1" oninput="App.calculateEmi()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tenure (Years)</label>
+              <input type="number" id="emiTenureYears" class="form-control" value="3" min="1" max="30" oninput="App.calculateEmi()">
+            </div>
+          </div>
+          <div class="card" style="background: var(--slate-50);">
+            <div style="display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap; gap: 14px;">
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted);">Monthly EMI</div>
+                <div style="font-size: 22px; font-weight: 800; color: var(--primary);" id="emiResultMonthly">₹9,610</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted);">Total Interest Payable</div>
+                <div style="font-size: 20px; font-weight: 700; color: #ef4444;" id="emiResultInterest">₹45,960</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted);">Total Amount (P + I)</div>
+                <div style="font-size: 20px; font-weight: 700; color: var(--slate-900);" id="emiResultTotal">₹3,45,960</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: SIP / Compound Interest -->
+        <div id="calcTabSip" class="calc-content-tab" style="display: none;">
+          <div class="form-grid-3" style="margin-bottom: 18px;">
+            <div class="form-group">
+              <label class="form-label">Monthly Deposit (₹/month)</label>
+              <input type="number" id="sipMonthlyAmount" class="form-control" value="3000" step="500" oninput="App.calculateSip()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Expected Annual Return (%)</label>
+              <input type="number" id="sipReturnRate" class="form-control" value="8.0" step="0.5" oninput="App.calculateSip()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Investment Duration (Years)</label>
+              <input type="number" id="sipYears" class="form-control" value="5" min="1" max="40" oninput="App.calculateSip()">
+            </div>
+          </div>
+          <div class="card" style="background: var(--slate-50);">
+            <div style="display: flex; justify-content: space-around; text-align: center; flex-wrap: wrap; gap: 14px;">
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted);">Total Invested</div>
+                <div style="font-size: 20px; font-weight: 700; color: var(--slate-800);" id="sipResultInvested">₹1,80,000</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted);">Estimated Returns</div>
+                <div style="font-size: 20px; font-weight: 700; color: #10b981;" id="sipResultReturns">₹42,500</div>
+              </div>
+              <div>
+                <div style="font-size: 12px; color: var(--text-muted);">Total Maturity Value</div>
+                <div style="font-size: 24px; font-weight: 800; color: var(--primary);" id="sipResultTotal">₹2,22,500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Emergency Fund Calculator -->
+        <div id="calcTabEmergency" class="calc-content-tab" style="display: none;">
+          <div class="form-grid-3" style="margin-bottom: 18px;">
+            <div class="form-group">
+              <label class="form-label">Monthly Essential Living Cost (₹)</label>
+              <input type="number" id="emgMonthlyCost" class="form-control" value="20000" step="1000" oninput="App.calculateEmergency()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target Months Cushion</label>
+              <select id="emgMonthsCount" class="form-control" onchange="App.calculateEmergency()">
+                <option value="3">3 Months (Basic Safety)</option>
+                <option value="6" selected>6 Months (Recommended)</option>
+                <option value="9">9 Months (High Stability)</option>
+                <option value="12">12 Months (Freelancers/Farmers)</option>
+              </select>
+            </div>
+          </div>
+          <div class="card" style="background: var(--slate-50); text-align: center; padding: 20px;">
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">Recommended Emergency Safety Reserve</div>
+            <div style="font-size: 28px; font-weight: 800; color: #059669;" id="emgTargetResult">₹1,20,000</div>
+            <p style="font-size: 12px; color: var(--slate-600); margin-top: 8px;">
+              Keep 50% in a liquid savings account for instant access and 50% in an auto sweep-in fixed deposit earning 6.5%+ interest.
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="App.closeModal('modalCalculators')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Scripts -->
+  <script src="js/data/schemesData.js"></script>
+  <script src="js/data/literacyData.js"></script>
+  <script src="js/data/defaultData.js"></script>
+  <script src="js/services/storage.js"></script>
+  <script src="js/services/eligibilityEngine.js"></script>
+  <script src="js/services/insightsEngine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
